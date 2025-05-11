@@ -64,6 +64,7 @@ const App: React.FC = () => {
   const [selectedLanguage, setSelectedLanguage] = useState<string>('All');
   const [projectFilter, setProjectFilter] = useState<string>('All');
   const [isScrolled, setIsScrolled] = React.useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
   const [isDarkMode, setIsDarkMode] = React.useState(() => {
     // Check local storage for theme preference
     const savedTheme = localStorage.getItem('theme');
@@ -279,7 +280,7 @@ const App: React.FC = () => {
             : 'bg-white/80 backdrop-blur-md shadow-lg'
           : 'bg-transparent'
       }`}>
-        <nav className="flex justify-between items-center p-4 max-w-6xl mx-auto">
+        <nav className="flex justify-between items-center p-4 max-w-6xl mx-auto relative">
           <h1 className={`text-2xl font-bold transition-colors duration-300 ${
             isScrolled 
               ? 'text-green-600 dark:text-green-400' 
@@ -287,7 +288,28 @@ const App: React.FC = () => {
           } hover:scale-105 transform cursor-pointer`}>
             Uvindu Pramuditha
           </h1>
-          <div className="flex items-center space-x-8">
+
+          {/* Mobile menu button */}
+          <button
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="md:hidden p-2 rounded-lg focus:outline-none"
+            aria-label="Toggle mobile menu"
+          >
+            <div className={`w-6 h-5 relative transform transition-all duration-300 ${isMobileMenuOpen ? 'rotate-180' : ''}`}>
+              <span className={`absolute h-0.5 w-full bg-current transform transition-all duration-300 ${
+                isMobileMenuOpen ? 'rotate-45 translate-y-2' : 'translate-y-0'
+              }`}></span>
+              <span className={`absolute h-0.5 w-full bg-current transform transition-all duration-300 translate-y-2 ${
+                isMobileMenuOpen ? 'opacity-0' : 'opacity-100'
+              }`}></span>
+              <span className={`absolute h-0.5 w-full bg-current transform transition-all duration-300 ${
+                isMobileMenuOpen ? '-rotate-45 translate-y-2' : 'translate-y-4'
+              }`}></span>
+            </div>
+          </button>
+
+          {/* Desktop Menu */}
+          <div className="hidden md:flex items-center space-x-8">
             {['About', 'Skills', 'Projects', 'Contact'].map((item) => (
               <a
                 key={item}
@@ -327,6 +349,50 @@ const App: React.FC = () => {
             </button>
           </div>
         </nav>
+
+        {/* Mobile menu */}
+        <div className={`${
+          isMobileMenuOpen ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0'
+        } md:hidden transition-all duration-300 overflow-hidden bg-white dark:bg-gray-800`}>
+          <div className="p-4 border-t border-gray-200 dark:border-gray-700">
+            {['About', 'Skills', 'Projects', 'Contact'].map((item) => (
+              <a
+                key={item}
+                href={`#${item.toLowerCase()}`}
+                onClick={() => setIsMobileMenuOpen(false)}
+                className={`block py-3 text-center ${
+                  isDarkMode 
+                    ? 'text-gray-300 hover:text-green-400'
+                    : 'text-gray-600 hover:text-green-600'
+                } transition-colors duration-300 text-lg`}
+              >
+                {item}
+              </a>
+            ))}
+            <button
+              onClick={() => {
+                toggleTheme();
+                setIsMobileMenuOpen(false);
+              }}
+              className={`w-full mt-4 py-3 rounded-lg ${
+                isDarkMode
+                  ? 'bg-gray-700 text-white hover:bg-gray-600'
+                  : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
+              } transition-colors duration-300 text-lg flex items-center justify-center gap-2`}
+            >
+              {isDarkMode ? 'Light Mode' : 'Dark Mode'}
+              {isDarkMode ? (
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                </svg>
+              ) : (
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                </svg>
+              )}
+            </button>
+          </div>
+        </div>
       </header>
 
       <section id="home" className={`min-h-screen relative overflow-hidden ${
