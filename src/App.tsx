@@ -1245,9 +1245,9 @@ const App: React.FC = () => {
                       <p className={`font-semibold ${
                         isDarkMode ? 'text-white' : 'text-gray-800'
                       }`}>Phone</p>
-                      <a href="tel:+94771855466" className={`${
+                      <a href="tel:+94750273901" className={`${
                         isDarkMode ? 'text-green-400' : 'text-green-600'
-                      } hover:underline`}>+94 771855466</a>
+                      } hover:underline`}>+94 750273901</a>
                     </div>
                   </div>
                 </div>
@@ -1417,14 +1417,14 @@ const App: React.FC = () => {
                     isDarkMode ? 'text-green-400' : 'text-green-600'
                   }`} />
                   <a
-                    href="tel:+94771855466"
+                    href="tel:+94750273901"
                     className={`${
                       isDarkMode 
                         ? 'text-gray-400 hover:text-green-400' 
                         : 'text-gray-600 hover:text-green-600'
                     } transition-colors duration-300`}
                   >
-                    +94 771855466
+                    +94 750273901
                   </a>
                 </li>
                 <li className="flex items-center gap-2">
